@@ -1,20 +1,30 @@
 import mongoose from 'mongoose';
 import { ObjectId } from 'mongodb';
-import User from './schemas/User';
+import { User, Post, Comment } from './schemas/index';
 
 const resolvers = {
     Query: {
-      hello: (_, args) => `Hello ${args.name || 'World'}!`,
+        user: async (_, {id, provider}) => {
+            return await User.findOne({id, provider});
+        },
+        posts: async () => {
+            return await Post.find().sort({'createdAt': 1});
+        }
     },
     Mutation: {
-        SignUp: (_, { id, name, provider }) => {
-            const user = new User({
-                id,
-                name,
-                provider
-            });
-            
-            return user.save();
+        login: async (_, { id, name, provider }) => {
+            const user = await User.findOne({id, provider});
+            if(!user) {
+                const date = new Date();
+                const new_user = new User({
+                    id,
+                    name,
+                    provider,
+                    createdAt: date.getTime()+(3600000*9) // KST,
+                });
+                return new_user.save();
+            }
+            return user;
         }
     }
 }

@@ -4,8 +4,9 @@ import resolvers from './resolvers';
 import typeDefs from './typeDefs';
 require('dotenv').config();
 
+const { MONGODB_ID, MONGODB_PW } = process.env;
 // MongoDB connect
-mongoose.connect(`mongodb://${process.env.MONGODB_ID}:${process.env.MONGODB_PW}@ds052827.mlab.com:52827/reactblog_db`, {useNewUrlParser : true});
+mongoose.connect(`mongodb://${MONGODB_ID}:${MONGODB_PW}@ds052827.mlab.com:52827/reactblog_db`, {useNewUrlParser : true});
 mongoose.connection.once('open', () => {
     console.log('MongoDB Connected...');
 });

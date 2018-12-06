@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 const { Schema } = mongoose;
-const { Type : { ObjectId }} = Schema;
+const { Types : { ObjectId }} = Schema;
 
 const commentSchema = new Schema({
     post: {
